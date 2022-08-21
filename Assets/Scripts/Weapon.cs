@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
 	SpriteRenderer _sprite;
 
 	public GameObject barrel;
-	public GameObject blast;
+	public GameObject projectile;
 
 	void Start()
 	{
@@ -19,9 +19,6 @@ public class Weapon : MonoBehaviour
 	{
 		GetInput();
 		Aim();
-
-		
-		
 	}
 
 	void GetInput()
@@ -32,8 +29,8 @@ public class Weapon : MonoBehaviour
 
 	void Fire()
 	{
-		blast.transform.position = barrel.transform.position;
-		blast.transform.rotation = gameObject.transform.rotation;
+		projectile.transform.position = barrel.transform.position;
+		projectile.transform.rotation = gameObject.transform.rotation;
 	}
 
 	void Aim()

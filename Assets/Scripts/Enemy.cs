@@ -9,13 +9,16 @@ public class Enemy : MonoBehaviour
 	Vector3 _target = new Vector3(0, 0, 0);
 	Vector2 _direction = new Vector3(0, 0, 0);
 
-	public float moveSpeed = 1f;
 
-	public GameObject player;
+	public float moveSpeed = 1f;
+	public float health = 1f;
+
+	GameObject _player;
 
 	void Start()
 	{
 		_rb = GetComponent<Rigidbody2D>();
+		_player = GameObject.Find("Player");
 	}
 
 	void Update()
@@ -24,17 +27,38 @@ public class Enemy : MonoBehaviour
 		Move();
 	}
 
+
+
 	void Move()
 	{
-		if (player != null)
+		if (_player != null)
 		{
-			if (player.activeInHierarchy)
+			if (_player.activeInHierarchy)
 			{
-				_target = player.transform.position;
+				_target = _player.transform.position;
 				_direction = (_target - transform.position).normalized;
 				_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
 			}
 		}
-
 	}
+
+
+	private void OnCollisionEnter2D(Collision2D other) {
+		if(other.gameObject.tag == "Projectile")
+			TakeDamage(other.gameObject.GetComponent<Projectile>().damage);
+	}
+
+	public void TakeDamage(float damage)
+	{
+		health -= damage;
+		Debug.Log(health);
+		if (health <= 0)
+			Die();
+	}
+
+	void Die()
+	{
+		gameObject.SetActive(false);
+	}
+
 }

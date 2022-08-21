@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
 	Vector2 _direction;
 	Rigidbody2D _rb;
+	float _health = 3f;
 
 	public GameObject cam;
 	public float moveSpeed = 1f;
@@ -37,4 +38,20 @@ public class Player : MonoBehaviour
 		cam.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, cam.transform.position.z);
 	}
 
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "Enemy")
+			TakeDamage();
+	}
+
+	void TakeDamage()
+	{
+		_health -= 1;
+		if (_health <= 0)
+			Die();
+	}
+
+	void Die()
+	{
+		Debug.Log("You are dead");
+	}
 }
