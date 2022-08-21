@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 	float _health = 3f;
 
 	public GameObject cam;
+	public GameObject bounds;
 	public float moveSpeed = 1f;
 
 	void Start()
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
 	void Update()
 	{
 		UpdateCameraPosition();
+		UpdateBoundsPosition();
 	}
 
 	void FixedUpdate()
@@ -36,6 +38,11 @@ public class Player : MonoBehaviour
 	void UpdateCameraPosition()
 	{
 		cam.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, cam.transform.position.z);
+	}
+
+	void UpdateBoundsPosition()
+	{
+		bounds.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, bounds.transform.position.z);
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

@@ -44,4 +44,16 @@ public class Projectile : MonoBehaviour
 		yield return new WaitForSeconds(ms);
 		_collider.enabled = false;
 	}
+
+	void OnTriggerStay2D(Collider2D other)
+	{
+		if (other.gameObject.tag == "Bounds" || other.gameObject.tag == "Enemy")
+			gameObject.SetActive(false);
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.tag == "Enemy")
+			gameObject.SetActive(false);
+	}
 }
