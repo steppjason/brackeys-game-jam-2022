@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour
 	public bool isBlast = false;
 	public float duration = 1f;
 
+	Coroutine _coBlastShot;
+
 	void Start()
 	{
 		_collider = GetComponent<BoxCollider2D>();
@@ -21,39 +23,46 @@ public class Projectile : MonoBehaviour
 
 	void Update()
 	{
-		GetInput();
 		Move();
-	}
-
-	void GetInput()
-	{
-		if (Input.GetKeyDown(KeyCode.Mouse0) && isBlast)
-		{
-			_collider.enabled = true;
-			StartCoroutine(BlastShot(duration));
-		}
 	}
 
 	void Move()
 	{
 		transform.position += transform.up * moveSpeed * Time.deltaTime;
+
+		if (isBlast)
+		{
+			if (gameObject.activeInHierarchy)
+			{
+				_collider.enabled = true;
+				_coBlastShot = StartCoroutine(BlastShot(duration));
+			}
+			else
+			{
+				if (_coBlastShot != null)
+					StopCoroutine(_coBlastShot);
+			}
+		}
+
 	}
 
 	IEnumerator BlastShot(float ms)
 	{
 		yield return new WaitForSeconds(ms);
 		_collider.enabled = false;
+		gameObject.SetActive(false);
+		yield break;
 	}
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Bounds" || other.gameObject.tag == "Enemy")
+		if (!isBlast && other.gameObject.tag == "Bounds" || other.gameObject.tag == "Enemy" )
 			gameObject.SetActive(false);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Enemy")
+		if (!isBlast && other.gameObject.tag == "Enemy")
 			gameObject.SetActive(false);
 	}
 }

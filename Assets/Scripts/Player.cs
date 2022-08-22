@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
 	public GameObject bounds;
 	public float moveSpeed = 1f;
 
+	public GameObject pistol;
+	public GameObject shotgun;
+	public GameObject machineGun;
+
 	void Start()
 	{
 		_rb = GetComponent<Rigidbody2D>();

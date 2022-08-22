@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
 	Coroutine _coFireAI;
 
 	float _elapsedTime = 0f;
+	float _weaponFireElapsedTime = 0f;
 
 	public GameObject barrel;
 	public BulletPool _bulletPool;
@@ -37,6 +38,8 @@ public class Weapon : MonoBehaviour
 	void CheckAITarget()
 	{
 		_elapsedTime += Time.deltaTime;
+		_weaponFireElapsedTime += Time.deltaTime;
+
 		if (hasTarget)
 			_elapsedTime = 0;
 		else if (_elapsedTime > 0.5f)
@@ -56,14 +59,20 @@ public class Weapon : MonoBehaviour
 
 	void GetInput()
 	{
-
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-			_coFire = StartCoroutine(Fire());
-
-		if (!Input.GetKey(KeyCode.Mouse0))
+		if (_weaponFireElapsedTime > fireRate)
 		{
-			if (_coFire != null)
-				StopCoroutine(_coFire);
+
+			if (Input.GetKeyDown(KeyCode.Mouse0))
+			{
+				_weaponFireElapsedTime = 0;
+				_coFire = StartCoroutine(Fire());
+			}
+
+			if (!Input.GetKey(KeyCode.Mouse0))
+			{
+				if (_coFire != null)
+					StopCoroutine(_coFire);
+			}
 		}
 
 	}
