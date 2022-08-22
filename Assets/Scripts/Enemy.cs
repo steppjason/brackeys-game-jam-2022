@@ -42,9 +42,14 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-		if(other.gameObject.tag == "Projectile")
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		Debug.Log(other);
+		if (other.gameObject.tag == "Projectile")
+		{
+			Debug.Log("Enemy taking damage...");
 			TakeDamage(other.gameObject.GetComponent<Projectile>().damage);
+		}
 	}
 
 	public void TakeDamage(float damage)

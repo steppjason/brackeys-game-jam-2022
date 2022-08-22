@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-	BoxCollider2D _collider;
+	PolygonCollider2D _collider;
 
 	public float damage = 1f;
 	public float moveSpeed = 0f;
@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
 
 	void Start()
 	{
-		_collider = GetComponent<BoxCollider2D>();
+		_collider = GetComponent<PolygonCollider2D>();
 		if (isBlast == true)
 			_collider.enabled = false;
 	}
@@ -34,11 +34,13 @@ public class Projectile : MonoBehaviour
 		{
 			if (gameObject.activeInHierarchy)
 			{
-				_collider.enabled = true;
-				_coBlastShot = StartCoroutine(BlastShot(duration));
+				Animator anim = GetComponent<Animator>();
+				anim.SetBool("Shooting", true);
+				_coBlastShot = StartCoroutine(BlastShotAnimation(2f));
 			}
 			else
 			{
+				_collider.enabled = false;
 				if (_coBlastShot != null)
 					StopCoroutine(_coBlastShot);
 			}
@@ -46,17 +48,42 @@ public class Projectile : MonoBehaviour
 
 	}
 
-	IEnumerator BlastShot(float ms)
+	void EndBlastShot()
+	{
+		Animator anim = GetComponent<Animator>();
+		anim.SetBool("Shooting", false);
+		_collider.enabled = false;
+	}
+
+	void StartBlastShot()
+	{
+		_collider.enabled = true;
+	}
+
+	// IEnumerator BlastShotOn(float ms)
+	// {
+	// 	yield return new WaitForSeconds(ms);
+	// 	_collider.enabled = true;
+	// 	yield break;
+	// }
+
+	// IEnumerator BlastShotOff(float ms)
+	// {
+	// 	yield return new WaitForSeconds(ms);
+	// 	_collider.enabled = false;
+	// 	yield break;
+	// }
+
+	IEnumerator BlastShotAnimation(float ms)
 	{
 		yield return new WaitForSeconds(ms);
-		_collider.enabled = false;
 		gameObject.SetActive(false);
 		yield break;
 	}
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (!isBlast && other.gameObject.tag == "Bounds" || other.gameObject.tag == "Enemy" )
+		if (!isBlast && other.gameObject.tag == "Bounds" || other.gameObject.tag == "Enemy")
 			gameObject.SetActive(false);
 	}
 

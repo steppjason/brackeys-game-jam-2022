@@ -62,7 +62,7 @@ public class Weapon : MonoBehaviour
 		if (_weaponFireElapsedTime > fireRate)
 		{
 
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+			if (Input.GetKey(KeyCode.Mouse0))
 			{
 				_weaponFireElapsedTime = 0;
 				_coFire = StartCoroutine(Fire());
@@ -145,7 +145,8 @@ public class Weapon : MonoBehaviour
 		while (true)
 		{
 			_bulletPool.SetBulletActive(barrel.transform.position, gameObject.transform.rotation);
-			yield return new WaitForSeconds(fireRate);
+			//yield return new WaitForSeconds(fireRate);
+			yield break;
 		}
 	}
 
