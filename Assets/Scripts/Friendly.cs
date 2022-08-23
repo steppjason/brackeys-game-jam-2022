@@ -14,6 +14,8 @@ public class Friendly : MonoBehaviour
 	public float health = 3f;
 	public float moveSpeed = 1f;
 
+	public bool isMoving = false;
+
 	void Start()
 	{
 		_player = GameObject.Find("Player");
@@ -47,10 +49,21 @@ public class Friendly : MonoBehaviour
 		{
 			if (_player.activeInHierarchy && Vector2.Distance(transform.position, (_player.transform.position + _target)) >= 0.05f)
 			{
-				//_target = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), gameObject.transform.position.z);
+				if(!isMoving)
+					_target = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), gameObject.transform.position.z);
+					
+				isMoving = true;
 				_direction = (_player.transform.position - transform.position + _target).normalized;
-				_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
+				_rb.position = _rb.position + _direction.normalized * moveSpeed * Time.deltaTime;
 			}
+			else
+			{
+				isMoving = false;
+			}
+			// else
+			// {
+			// 	
+			// }
 		}
 	}
 
@@ -63,7 +76,7 @@ public class Friendly : MonoBehaviour
 
 	void Die()
 	{
-		Debug.Log("Friendly died");
+		//Debug.Log("Friendly died");
 	}
 
 	void Rescue()

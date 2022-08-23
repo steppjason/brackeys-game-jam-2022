@@ -23,20 +23,20 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		UpdateCameraPosition();
 		UpdateBoundsPosition();
+		Move();
+		//UpdateCameraPosition();
 	}
 
-	void FixedUpdate()
-	{
-		Move();
+	private void FixedUpdate() {
+		//_rb.MovePosition(_rb.position + _direction * moveSpeed * Time.deltaTime);
 	}
 
 	void Move()
 	{
 		_direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 		_direction.Normalize();
-		_rb.MovePosition(_rb.position + _direction * moveSpeed * Time.deltaTime);
+		_rb.position = _rb.position + _direction * moveSpeed * Time.deltaTime;
 	}
 
 	void UpdateCameraPosition()
@@ -63,6 +63,6 @@ public class Player : MonoBehaviour
 
 	void Die()
 	{
-		Debug.Log("You are dead");
+		//Debug.Log("You are dead");
 	}
 }

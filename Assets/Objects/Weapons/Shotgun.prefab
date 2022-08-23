@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2687797142080460853
 Transform:
   m_ObjectHideFlags: 0
@@ -50,8 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrel: {fileID: 2687797143410492761}
   _bulletPool: {fileID: 0}
-  fireRate: 0.8
-  aiWeapon: 0
+  fireRate: 0.7
+  aiWeapon: 1
   hasTarget: 0
 --- !u!212 &2687797142080460854
 SpriteRenderer:
@@ -141,7 +141,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.039019074, y: 0.0832991}
   serializedVersion: 2
-  m_Radius: 1.82
+  m_Radius: 0.8
 --- !u!1 &2687797143410492761
 GameObject:
   m_ObjectHideFlags: 0

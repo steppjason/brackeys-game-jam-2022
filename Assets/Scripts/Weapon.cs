@@ -20,7 +20,18 @@ public class Weapon : MonoBehaviour
 	public bool hasTarget = false;
 	bool firstRun = true;
 	Vector3 enemyTarget = new Vector3(-1, 0, 0);
+	GameObject _target;
 
+	Vector3 mousePos = new Vector3(0, 0, 0);
+	Vector3 mousePosV = new Vector3(0, 0, 0);
+
+	Vector3 defaultRotation = new Vector3(0, 0, 90);
+
+	Vector3 localPosRight = new Vector3(0.073f, 0, 0);
+	Vector3 localPosLeft = new Vector3(-0.073f, 0, 0);
+
+	Vector3 barrelPosRight = new Vector3(-0.044f, 0, 0);
+	Vector3 barrelPosLeft = new Vector3(0.044f, 0, 0);
 
 	void Start()
 	{
@@ -31,6 +42,14 @@ public class Weapon : MonoBehaviour
 	{
 		if (!aiWeapon)
 			GetInput();
+
+		if (aiWeapon)
+		{
+			AimAI();
+			AI();
+		}
+		else
+			Aim();
 
 		CheckAITarget();
 	}
@@ -46,16 +65,6 @@ public class Weapon : MonoBehaviour
 			enemyTarget = transform.position + new Vector3(-1, 0, 0);
 	}
 
-	void FixedUpdate()
-	{
-		if (aiWeapon)
-		{
-			AimAI();
-			AI();
-		}
-		else
-			Aim();
-	}
 
 	void GetInput()
 	{
@@ -79,8 +88,9 @@ public class Weapon : MonoBehaviour
 
 	void AI()
 	{
-		if (hasTarget && firstRun)
+		if (hasTarget && firstRun && _weaponFireElapsedTime > fireRate)
 		{
+			_weaponFireElapsedTime = 0;
 			_coFireAI = StartCoroutine(FireAI());
 			firstRun = false;
 		}
@@ -95,7 +105,10 @@ public class Weapon : MonoBehaviour
 
 	void AimAI()
 	{
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, enemyTarget - transform.position + new Vector3(0, 0, 90));
+		if (_target != null && hasTarget)
+			enemyTarget = _target.transform.position;
+
+		transform.rotation = Quaternion.LookRotation(Vector3.forward, enemyTarget - transform.position + defaultRotation);
 
 		if (transform.rotation.eulerAngles.z > 5 && transform.rotation.eulerAngles.z < 175)
 			_sprite.flipX = true;
@@ -103,9 +116,9 @@ public class Weapon : MonoBehaviour
 			_sprite.flipX = false;
 
 		if (enemyTarget.x > transform.position.x)
-			transform.localPosition = new Vector3(0.073f, 0, 0);
+			transform.localPosition = localPosRight;
 		else
-			transform.localPosition = new Vector3(-0.073f, 0, 0);
+			transform.localPosition = localPosLeft;
 
 
 		if (_sprite.flipX == false)
@@ -117,10 +130,10 @@ public class Weapon : MonoBehaviour
 	void Aim()
 	{
 
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector3 mousePosV = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		mousePosV = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position + new Vector3(0, 0, 90));
+		transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position + defaultRotation);
 
 		if (transform.rotation.eulerAngles.z > 5 && transform.rotation.eulerAngles.z < 175)
 			_sprite.flipX = true;
@@ -128,10 +141,10 @@ public class Weapon : MonoBehaviour
 			_sprite.flipX = false;
 
 
-		if (mousePosV.x > 0.5)
-			transform.localPosition = new Vector3(0.073f, 0, 0);
+		if (mousePosV.x > 0.5f)
+			transform.localPosition = localPosRight;
 		else
-			transform.localPosition = new Vector3(-0.073f, 0, 0);
+			transform.localPosition = localPosLeft;
 
 
 		if (_sprite.flipX == false)
@@ -163,12 +176,18 @@ public class Weapon : MonoBehaviour
 	{
 		if (other.gameObject.tag == "Enemy")
 		{
-			enemyTarget = other.gameObject.transform.position;
-			hasTarget = true;
+			if (!hasTarget)
+			{
+				_target = other.gameObject;
+				hasTarget = true;
+			}
 		}
-		else
+
+		if (_target != null && !_target.activeInHierarchy)
 		{
 			hasTarget = false;
+			firstRun = true;
+
 			if (_coFireAI != null)
 				StopCoroutine(_coFireAI);
 		}
