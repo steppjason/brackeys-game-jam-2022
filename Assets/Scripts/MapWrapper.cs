@@ -17,11 +17,9 @@ public class MapWrapper : MonoBehaviour
 
 	void LateUpdate() 
 	{
-		//transform.position += new Vector3(1 * Time.deltaTime, 1 * Time.deltaTime, 0);
 
 		if(transform.position.x > mapWidth)
-			transform.position = new Vector3(-chunkWidth, transform.position.y, transform.position.z);
-			
+			transform.position = new Vector3(-chunkWidth, transform.position.y, transform.position.z);			
 
 		if(transform.position.x < -mapWidth)
 			transform.position = new Vector3(chunkWidth, transform.position.y, transform.position.z);
