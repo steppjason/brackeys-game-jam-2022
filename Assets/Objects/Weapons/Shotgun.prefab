@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2687797142080460852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.072, y: -0.027, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -51,7 +51,7 @@ MonoBehaviour:
   barrel: {fileID: 2687797143410492761}
   _bulletPool: {fileID: 0}
   fireRate: 0.7
-  aiWeapon: 1
+  aiWeapon: 0
   hasTarget: 0
 --- !u!212 &2687797142080460854
 SpriteRenderer:
@@ -91,8 +91,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2102545135
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a2b48ef854c675f4cbe24d8aa49ac532, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -139,9 +139,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.039019074, y: 0.0832991}
+  m_Offset: {x: 0.12, y: 0.27}
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 2.9
 --- !u!1 &2687797143410492761
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2687797143410492761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.059, y: 0.164, z: 0}
+  m_LocalPosition: {x: 0.141, y: 0.73, z: 0}
   m_LocalScale: {x: 0.2362, y: 0.2185, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

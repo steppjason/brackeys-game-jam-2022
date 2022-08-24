@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Grabber
   - Bounds
+  - GRID
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TileMap
+    uniqueID: 2299890127
+    locked: 0
+  - name: Enemies
+    uniqueID: 301092991
+    locked: 0
+  - name: Fiendly
+    uniqueID: 2881339557
+    locked: 0
+  - name: Player
+    uniqueID: 2192422161
+    locked: 0
+  - name: Bullets
+    uniqueID: 2867804423
     locked: 0

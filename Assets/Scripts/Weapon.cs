@@ -27,11 +27,11 @@ public class Weapon : MonoBehaviour
 
 	Vector3 defaultRotation = new Vector3(0, 0, 90);
 
-	Vector3 localPosRight = new Vector3(0.073f, 0, 0);
-	Vector3 localPosLeft = new Vector3(-0.073f, 0, 0);
+	Vector3 localPosRight = new Vector3(0.276f, -0.1f, 0);
+	Vector3 localPosLeft = new Vector3(-0.276f, -0.1f, 0);
 
-	Vector3 barrelPosRight = new Vector3(-0.044f, 0, 0);
-	Vector3 barrelPosLeft = new Vector3(0.044f, 0, 0);
+	Vector3 barrelPosRight = new Vector3(-0.132f, 0.727f, 0);
+	Vector3 barrelPosLeft = new Vector3(0.132f, 0.727f, 0);
 
 	void Start()
 	{
@@ -122,9 +122,9 @@ public class Weapon : MonoBehaviour
 
 
 		if (_sprite.flipX == false)
-			barrel.transform.localPosition = new Vector3(-0.044f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
+			barrel.transform.localPosition = new Vector3(-0.141f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
 		else
-			barrel.transform.localPosition = new Vector3(0.044f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
+			barrel.transform.localPosition = new Vector3(0.141f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
 	}
 
 	void Aim()
@@ -148,9 +148,9 @@ public class Weapon : MonoBehaviour
 
 
 		if (_sprite.flipX == false)
-			barrel.transform.localPosition = new Vector3(-0.044f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
+			barrel.transform.localPosition = new Vector3(-0.141f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
 		else
-			barrel.transform.localPosition = new Vector3(0.044f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
+			barrel.transform.localPosition = new Vector3(0.141f, barrel.transform.localPosition.y, barrel.transform.localPosition.z);
 	}
 
 	IEnumerator Fire()

@@ -11,6 +11,7 @@ public class Friendly : MonoBehaviour
 	Vector3 _target;
 	bool _rescued = false;
 
+	public float range = 2.5f;
 	public float health = 3f;
 	public float moveSpeed = 1f;
 
@@ -49,9 +50,9 @@ public class Friendly : MonoBehaviour
 		{
 			if (_player.activeInHierarchy && Vector2.Distance(transform.position, (_player.transform.position + _target)) >= 0.05f)
 			{
-				if(!isMoving)
-					_target = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), gameObject.transform.position.z);
-					
+				if (!isMoving)
+					GetRandomPoint();
+
 				isMoving = true;
 				_direction = (_player.transform.position - transform.position + _target).normalized;
 				_rb.position = _rb.position + _direction.normalized * moveSpeed * Time.deltaTime;
@@ -82,7 +83,7 @@ public class Friendly : MonoBehaviour
 	void Rescue()
 	{
 		_rescued = true;
-		_target = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), gameObject.transform.position.z);
+		GetRandomPoint();
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -92,5 +93,12 @@ public class Friendly : MonoBehaviour
 
 		if (other.gameObject.tag == "Grabber")
 			Rescue();
+	}
+
+	void GetRandomPoint()
+	{
+		Vector2 direction = new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+		direction.Normalize();
+		_target = new Vector3(direction.x * range, direction.y * range, gameObject.transform.position.z);
 	}
 }

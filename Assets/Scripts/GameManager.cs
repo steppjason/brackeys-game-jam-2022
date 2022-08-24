@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
 
 	public Camera cam;
 	public float threshold = 100.0f;
+
+	public GameObject player;
 
 	void Start()
 	{
@@ -41,22 +44,21 @@ public class GameManager : MonoBehaviour
 
 	void ResetOrigin()
 	{
-		Vector3 camPos = cam.transform.position;
-		camPos.y = 0f;
+		//Vector3 camPos = cam.transform.position;
+		Vector3 camPos = player.transform.position;
+		camPos.z = 0f;
 
-
-		if (camPos.magnitude > threshold)
-		{
-			for (int i = 0; i < SceneManager.sceneCount; i++)
-			{
-				foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects())
-				{
-					g.transform.position -= camPos;
-				}
+		if (Math.Abs(camPos.x) > threshold){
+			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects()){
+				g.transform.position -= new Vector3((float)Math.Round(camPos.x), 0, 0);
 			}
-
-			//Vector3 originDelta = Vector3.zero - cam.transform.position;
-
 		}
+
+		if (Math.Abs(camPos.y) > threshold){
+			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects()){
+				g.transform.position -= new Vector3(0, (float)Math.Round(camPos.y), 0);
+			}
+		}
+
 	}
 }

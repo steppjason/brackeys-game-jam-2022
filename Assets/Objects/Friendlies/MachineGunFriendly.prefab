@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7610528814154161072}
   - component: {fileID: 7610528814154161073}
   - component: {fileID: 7610528814154161074}
-  - component: {fileID: 7610528814154161075}
+  - component: {fileID: 5691424553719688097}
   m_Layer: 9
   m_Name: MachineGunFriendly
   m_TagString: Untagged
@@ -48,8 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498b5f74dd95afd4d86a8dc75c74d2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 1
   health: 3
-  moveSpeed: 1.5
+  moveSpeed: 4.5
+  isMoving: 0
 --- !u!212 &7610528814154161073
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88,8 +90,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2102545135
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4a806446a94395c4b9da1453c5cc81ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123,8 +125,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7610528814154161075
-BoxCollider2D:
+--- !u!70 &5691424553719688097
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -133,22 +135,12 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00049111247, y: -0.019946009}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
-    newSize: {x: 0.32, y: 0.32}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.06317109, y: 0.086470425}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.020619527, y: -0.08591466}
+  m_Size: {x: 0.20958525, y: 0.4157804}
+  m_Direction: 0
 --- !u!1001 &1535083645001360314
 PrefabInstance:
   m_ObjectHideFlags: 0
