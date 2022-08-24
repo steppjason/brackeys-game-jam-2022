@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
 
 	void ResetOrigin()
 	{
-		//Vector3 camPos = cam.transform.position;
 		Vector3 camPos = player.transform.position;
 		camPos.z = 0f;
 
