@@ -55,7 +55,7 @@ MonoBehaviour:
   fireRate: 0.7
   aiWeapon: 0
   hasTarget: 0
-  shake: 5
+  shake: 0.7
   shakeAI: 0.5
 --- !u!50 &2687797142080460849
 Rigidbody2D:

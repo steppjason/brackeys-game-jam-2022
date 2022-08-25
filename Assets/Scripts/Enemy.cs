@@ -8,8 +8,9 @@ public class Enemy : MonoBehaviour
 	Rigidbody2D _rb;
 	Vector3 _target = new Vector3(0, 0, 0);
 	Vector2 _direction = new Vector3(0, 0, 0);
+	Animator _anim;
 
-	SpriteRenderer sprite;
+	public SpriteRenderer sprite;
 	Shader guiText;
 	Shader defaultShader;
 
@@ -24,9 +25,10 @@ public class Enemy : MonoBehaviour
 	{
 		_rb = GetComponent<Rigidbody2D>();
 		_player = GameObject.Find("Player");
-		sprite = GetComponent<SpriteRenderer>();
+		//sprite = GetComponent<SpriteRenderer>();
 		guiText = Shader.Find("GUI/Text Shader");
 		defaultShader = Shader.Find("Sprites/Default");
+		_anim = GetComponent<Animator>();
 	}
 
 	void Update()
@@ -43,10 +45,20 @@ public class Enemy : MonoBehaviour
 		{
 			if (_player.activeInHierarchy)
 			{
+
+				_anim.SetBool("Following", true);
 				_target = _player.transform.position;
 				_direction = (_target - transform.position).normalized;
 				_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
 			}
+			else
+			{
+				_anim.SetBool("Following", false);
+			}
+		}
+		else
+		{
+			_anim.SetBool("Following", false);
 		}
 	}
 
@@ -63,7 +75,7 @@ public class Enemy : MonoBehaviour
 			Die();
 		else
 			StartCoroutine(FlashWhite());
-			
+
 	}
 
 	void Die()
