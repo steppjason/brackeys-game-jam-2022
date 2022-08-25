@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 743153689299292144}
-  moveSpeed: 1
-  health: 4
+  moveSpeed: 3
+  health: 6
 --- !u!50 &2335401019988869270
 Rigidbody2D:
   serializedVersion: 4

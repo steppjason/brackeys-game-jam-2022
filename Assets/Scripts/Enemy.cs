@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
 	{
 		_direction.Normalize();
 		Move();
+		CheckDistanceFromPlayer();
 	}
 
 
@@ -62,6 +63,12 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	void CheckDistanceFromPlayer()
+	{
+		if (Vector3.Distance(_player.transform.position, transform.position) > 14)
+			gameObject.SetActive(false);
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "Projectile")
@@ -86,7 +93,7 @@ public class Enemy : MonoBehaviour
 	IEnumerator FlashWhite()
 	{
 		sprite.material.shader = guiText;
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.25f);
 		sprite.material.shader = defaultShader;
 	}
 
