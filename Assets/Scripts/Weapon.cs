@@ -5,7 +5,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
 
-	SpriteRenderer _sprite;
+	//SpriteRenderer _sprite;
+	public SpriteRenderer _sprite;
+	Animator _anim;
 	Coroutine _coFire;
 	Coroutine _coFireAI;
 
@@ -33,9 +35,13 @@ public class Weapon : MonoBehaviour
 	Vector3 barrelPosRight = new Vector3(-0.132f, 0.727f, 0);
 	Vector3 barrelPosLeft = new Vector3(0.132f, 0.727f, 0);
 
+	public float shake;
+	public float shakeAI;
+
 	void Start()
 	{
-		_sprite = GetComponent<SpriteRenderer>();
+		//		_sprite = GetComponent<SpriteRenderer>();
+		_anim = GetComponent<Animator>();
 	}
 
 	void Update()
@@ -81,6 +87,8 @@ public class Weapon : MonoBehaviour
 			{
 				if (_coFire != null)
 					StopCoroutine(_coFire);
+
+				_anim.SetBool("Fire", false);
 			}
 		}
 
@@ -93,6 +101,8 @@ public class Weapon : MonoBehaviour
 			_weaponFireElapsedTime = 0;
 			_coFireAI = StartCoroutine(FireAI());
 			firstRun = false;
+		} else {
+			_anim.SetBool("Fire", false);
 		}
 	}
 
@@ -158,7 +168,8 @@ public class Weapon : MonoBehaviour
 		while (true)
 		{
 			_bulletPool.SetBulletActive(barrel.transform.position, gameObject.transform.rotation);
-			//yield return new WaitForSeconds(fireRate);
+			_anim.SetBool("Fire", true);
+			GameManager.Instance.cameraShake.ShakeCamera(shake, 0.1f);
 			yield break;
 		}
 	}
@@ -168,6 +179,8 @@ public class Weapon : MonoBehaviour
 		while (true)
 		{
 			_bulletPool.SetBulletActive(barrel.transform.position, gameObject.transform.rotation);
+			_anim.SetBool("Fire", true);
+			//GameManager.Instance.cameraShake.ShakeCamera(shakeAI, 0.1f);
 			yield return new WaitForSeconds(fireRate);
 		}
 	}

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance { get; private set; }
 
+	public CameraShake cameraShake;
+
 	public Camera cam;
 	public float threshold = 100.0f;
 

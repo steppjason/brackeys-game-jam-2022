@@ -9,9 +9,14 @@ public class Enemy : MonoBehaviour
 	Vector3 _target = new Vector3(0, 0, 0);
 	Vector2 _direction = new Vector3(0, 0, 0);
 
+	SpriteRenderer sprite;
+	Shader guiText;
+	Shader defaultShader;
 
 	public float moveSpeed = 1f;
 	public float health = 1f;
+
+
 
 	GameObject _player;
 
@@ -19,6 +24,9 @@ public class Enemy : MonoBehaviour
 	{
 		_rb = GetComponent<Rigidbody2D>();
 		_player = GameObject.Find("Player");
+		sprite = GetComponent<SpriteRenderer>();
+		guiText = Shader.Find("GUI/Text Shader");
+		defaultShader = Shader.Find("Sprites/Default");
 	}
 
 	void Update()
@@ -53,11 +61,21 @@ public class Enemy : MonoBehaviour
 		health -= damage;
 		if (health <= 0)
 			Die();
+		else
+			StartCoroutine(FlashWhite());
+			
 	}
 
 	void Die()
 	{
 		gameObject.SetActive(false);
+	}
+
+	IEnumerator FlashWhite()
+	{
+		sprite.material.shader = guiText;
+		yield return new WaitForSeconds(0.1f);
+		sprite.material.shader = defaultShader;
 	}
 
 }

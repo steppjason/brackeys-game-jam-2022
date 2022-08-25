@@ -6,6 +6,7 @@ public class Friendly : MonoBehaviour
 {
 
 	Rigidbody2D _rb;
+	Animator _anim;
 	GameObject _player;
 	Vector2 _direction = new Vector3(0, 0, 0);
 	Vector3 _target;
@@ -21,6 +22,7 @@ public class Friendly : MonoBehaviour
 	{
 		_player = GameObject.Find("Player");
 		_rb = GetComponent<Rigidbody2D>();
+		_anim = GetComponent<Animator>();
 	}
 
 	void Update()
@@ -54,12 +56,14 @@ public class Friendly : MonoBehaviour
 					GetRandomPoint();
 
 				isMoving = true;
+				_anim.SetBool("Following", true);
 				_direction = (_player.transform.position - transform.position + _target).normalized;
 				_rb.position = _rb.position + _direction.normalized * moveSpeed * Time.deltaTime;
 			}
 			else
 			{
 				isMoving = false;
+				_anim.SetBool("Following", false);
 			}
 			// else
 			// {
