@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 	Rigidbody2D _rb;
 	Animator _anim;
 	float _health;
+	float _damageTimer;
+
 
 
 	public BloodSplattPool bloodSplattPool;
@@ -21,6 +23,9 @@ public class Player : MonoBehaviour
 	public GameObject pistol;
 	public GameObject shotgun;
 	public GameObject machineGun;
+	public float damageRate;
+
+
 
 	void Start()
 	{
@@ -43,9 +48,9 @@ public class Player : MonoBehaviour
 
 		_rb.position = _rb.position + _direction * moveSpeed * Time.deltaTime;
 
-		if(Input.GetAxisRaw("Horizontal") != 0 ||  Input.GetAxisRaw("Vertical") != 0 )
+		if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
 			_anim.SetBool("Walking", true);
-		else 
+		else
 			_anim.SetBool("Walking", false);
 
 	}
@@ -56,10 +61,17 @@ public class Player : MonoBehaviour
 		bounds.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, cam.transform.position.z);
 	}
 
-	void OnTriggerStay2D(Collider2D other)
+	void OnCollisionStay2D(Collision2D other)
 	{
 		if (other.gameObject.tag == "Enemy")
-			TakeDamage();
+		{
+			_damageTimer += Time.deltaTime;
+			if (_damageTimer > damageRate)
+			{
+				TakeDamage();
+				_damageTimer = 0;
+			}
+		}
 	}
 
 	void TakeDamage()

@@ -12,6 +12,7 @@ public class Friendly : MonoBehaviour
 	Vector3 _target;
 	bool _rescued = false;
 	float _health;
+	float _damageTimer;
 
 
 	public BloodSplattPool bloodSplattPool;
@@ -21,6 +22,7 @@ public class Friendly : MonoBehaviour
 	public float range = 2.5f;
 	public float moveSpeed = 1f;
 	public bool isMoving = false;
+	public float damageRate = 0.1f;
 
 	void Start()
 	{
@@ -44,7 +46,7 @@ public class Friendly : MonoBehaviour
 	void CheckDistanceFromPlayer()
 	{
 		if (_player != null && _player.activeInHierarchy)
-			if (Vector3.Distance(_player.transform.position, transform.position) > 25)
+			if (Vector3.Distance(_player.transform.position, transform.position) > 35)
 				gameObject.SetActive(false);
 	}
 
@@ -110,7 +112,14 @@ public class Friendly : MonoBehaviour
 	private void OnCollisionStay2D(Collision2D other)
 	{
 		if (_rescued && other.gameObject.tag == "Enemy")
-			TakeDamage();
+		{
+			_damageTimer += Time.deltaTime;
+			if (_damageTimer > damageRate)
+			{
+				TakeDamage();
+				_damageTimer = 0;
+			}
+		}
 	}
 
 

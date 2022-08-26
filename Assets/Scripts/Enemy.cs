@@ -9,14 +9,17 @@ public class Enemy : MonoBehaviour
 	Vector3 _target = new Vector3(0, 0, 0);
 	Vector2 _direction = new Vector3(0, 0, 0);
 	Animator _anim;
-
-	public BloodSplattPool bloodSplattPool;
-	public SpriteRenderer sprite;
 	Shader guiText;
 	Shader defaultShader;
 
+	public BloodSplattPool bloodSplattPool;
+	public SpriteRenderer sprite;
 	public float moveSpeed = 1f;
 	public float health = 6f;
+
+	public AudioClip[] hitSounds;
+	public AudioClip deathSound;
+	
 
 
 
@@ -38,6 +41,9 @@ public class Enemy : MonoBehaviour
 		_direction.Normalize();
 		Move();
 		CheckDistanceFromPlayer();
+
+		if (gameObject == null || !gameObject.activeInHierarchy)
+			StopAllCoroutines();
 	}
 
 
@@ -85,15 +91,19 @@ public class Enemy : MonoBehaviour
 		gameObject.SetActive(false);
 		GameManager.Instance.kills++;
 		bloodSplattPool.SetBloodSplatt(gameObject.transform.position, Quaternion.identity);
+		GameManager.Instance.audioManager.PlaySFX(0,deathSound);
 	}
 
 	IEnumerator FlashWhite()
 	{
 		sprite.material.shader = guiText;
 		moveSpeed = -moveSpeed;
+		GameManager.Instance.audioManager.PlaySFX(1, hitSounds[Random.Range(0,2)]);
 		yield return new WaitForSeconds(0.25f);
 		sprite.material.shader = defaultShader;
 		moveSpeed = -moveSpeed;
 	}
+
+
 
 }

@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance { get; private set; }
 
+	public AudioManager audioManager;
 	public CameraShake cameraShake;
-
 	public Camera cam;
 	public float threshold = 100.0f;
 	public int kills;
@@ -19,9 +19,14 @@ public class GameManager : MonoBehaviour
 
 	public GameObject player;
 
-	void Start()
+	void Awake()
 	{
 		GetGameInstance();
+		audioManager = GetComponent<AudioManager>();
+	}
+
+	void Start()
+	{
 		GetManagers();
 		kills = 0;
 	}

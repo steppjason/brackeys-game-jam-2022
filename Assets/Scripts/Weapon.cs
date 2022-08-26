@@ -20,6 +20,9 @@ public class Weapon : MonoBehaviour
 
 	public bool aiWeapon = false;
 	public bool hasTarget = false;
+
+	public AudioClip gunSound;
+
 	bool firstRun = true;
 	Vector3 enemyTarget = new Vector3(-1, 0, 0);
 	GameObject _target;
@@ -169,6 +172,7 @@ public class Weapon : MonoBehaviour
 		{
 			_bulletPool.SetBulletActive(barrel.transform.position, gameObject.transform.rotation);
 			_anim.SetBool("Fire", true);
+			GameManager.Instance.audioManager.PlaySFX(2, gunSound);
 			GameManager.Instance.cameraShake.ShakeCamera(shake, 0.1f);
 			yield break;
 		}
@@ -180,6 +184,7 @@ public class Weapon : MonoBehaviour
 		{
 			_bulletPool.SetBulletActive(barrel.transform.position, gameObject.transform.rotation);
 			_anim.SetBool("Fire", true);
+			GameManager.Instance.audioManager.PlaySFX(3, gunSound);
 			//GameManager.Instance.cameraShake.ShakeCamera(shakeAI, 0.1f);
 			yield return new WaitForSeconds(fireRate);
 		}

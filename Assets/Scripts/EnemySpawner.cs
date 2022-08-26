@@ -18,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
 
 	Enemy[] _enemies;
 	int _nextEnemy = 0;
+	public AudioClip zombieSound;
 
 	void Awake()
 	{
@@ -28,6 +29,7 @@ public class EnemySpawner : MonoBehaviour
 	void Start()
 	{
 		StartCoroutine(coSpawnEnemies());
+		//StartCoroutine(coPlayZombieSound());
 	}
 
 	void Update()
@@ -42,6 +44,15 @@ public class EnemySpawner : MonoBehaviour
 		{
 			SpawnEnemies(_numberOfEnemiesToSpawn);
 			yield return new WaitForSeconds(waitTime);
+		}
+	}
+
+	IEnumerator coPlayZombieSound()
+	{
+		while (true)
+		{
+			//GameManager.Instance.audioManager.PlaySFX(zombieSound);
+			yield return new WaitForSeconds(3f);
 		}
 	}
 
@@ -92,13 +103,12 @@ public class EnemySpawner : MonoBehaviour
 		newEnemy.transform.rotation = rotation;
 		newEnemy.moveSpeed = 3f;
 		newEnemy.gameObject.SetActive(true);
-
 	}
 
 
 	void GetAvailable()
 	{
-		if(_nextEnemy == -1) _nextEnemy = 0;
+		if (_nextEnemy == -1) _nextEnemy = 0;
 		for (int i = _nextEnemy; i < _enemies.Length; i++)
 		{
 			if (!_enemies[i].gameObject.activeInHierarchy)
@@ -112,5 +122,6 @@ public class EnemySpawner : MonoBehaviour
 		return;
 
 	}
+
 
 }

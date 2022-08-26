@@ -17,7 +17,7 @@ public class FriendlyPool : MonoBehaviour
 		while (true)
 		{
 			GetAvailable();
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(10);
 		}
 	}
 
@@ -35,7 +35,7 @@ public class FriendlyPool : MonoBehaviour
 		int randomIndex = Random.Range(0, _friendlies.Length);
 		
 		if (!_friendlies[randomIndex].gameObject.activeInHierarchy)
-			SpawnFriendly(GetRandomPoint(10) + player.transform.position , Quaternion.identity, _friendlies[randomIndex]);
+			SpawnFriendly(GetRandomPoint(20) + player.transform.position , Quaternion.identity, _friendlies[randomIndex]);
 	}
 
 	Vector3 GetRandomPoint(float range)
