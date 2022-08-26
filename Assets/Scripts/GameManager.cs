@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
 
 	public Camera cam;
 	public float threshold = 100.0f;
+	public int kills;
+	public TMP_Text score;
 
 	public GameObject player;
 
@@ -20,6 +23,7 @@ public class GameManager : MonoBehaviour
 	{
 		GetGameInstance();
 		GetManagers();
+		kills = 0;
 	}
 
 	void LateUpdate()
@@ -39,6 +43,11 @@ public class GameManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 
+	void Update()
+	{
+		score.text = String.Format("{0:n0}", kills);
+	}
+
 	void GetManagers()
 	{
 
@@ -49,14 +58,18 @@ public class GameManager : MonoBehaviour
 		Vector3 camPos = player.transform.position;
 		camPos.z = 0f;
 
-		if (Math.Abs(camPos.x) > threshold){
-			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects()){
+		if (Math.Abs(camPos.x) > threshold)
+		{
+			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects())
+			{
 				g.transform.position -= new Vector3((float)Math.Round(camPos.x), 0, 0);
 			}
 		}
 
-		if (Math.Abs(camPos.y) > threshold){
-			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects()){
+		if (Math.Abs(camPos.y) > threshold)
+		{
+			foreach (GameObject g in SceneManager.GetSceneAt(0).GetRootGameObjects())
+			{
 				g.transform.position -= new Vector3(0, (float)Math.Round(camPos.y), 0);
 			}
 		}

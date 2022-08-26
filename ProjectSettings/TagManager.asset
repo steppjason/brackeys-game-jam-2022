@@ -10,6 +10,7 @@ TagManager:
   - Bounds
   - GRID
   - EnemyBounds
+  - Friendly
   layers:
   - Default
   - TransparentFX

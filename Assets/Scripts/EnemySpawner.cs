@@ -90,6 +90,7 @@ public class EnemySpawner : MonoBehaviour
 		newEnemy.sprite.material.shader = defaultShader;
 		newEnemy.transform.position = position;
 		newEnemy.transform.rotation = rotation;
+		newEnemy.moveSpeed = 3f;
 		newEnemy.gameObject.SetActive(true);
 
 	}

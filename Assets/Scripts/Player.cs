@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
 	Vector2 _direction;
 	Rigidbody2D _rb;
 	Animator _anim;
-	float _health = 3f;
+	float _health;
 
+
+	public BloodSplattPool bloodSplattPool;
 	public GameObject cam;
 	public GameObject bounds;
 	public float moveSpeed = 1f;
+	public float maxHealth = 100f;
+	public Image healthBar;
 
 	public GameObject pistol;
 	public GameObject shotgun;
@@ -21,12 +26,14 @@ public class Player : MonoBehaviour
 	{
 		_rb = GetComponent<Rigidbody2D>();
 		_anim = GetComponent<Animator>();
+		_health = maxHealth;
 	}
 
 	void Update()
 	{
 		Move();
 		UpdateCameraPosition();
+		healthBar.fillAmount = _health / 100;
 	}
 
 	void Move()
@@ -49,7 +56,7 @@ public class Player : MonoBehaviour
 		bounds.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, cam.transform.position.z);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	void OnTriggerStay2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "Enemy")
 			TakeDamage();
@@ -57,6 +64,7 @@ public class Player : MonoBehaviour
 
 	void TakeDamage()
 	{
+		GameManager.Instance.cameraShake.ShakeCamera(5f, 0.05f);
 		_health -= 1;
 		if (_health <= 0)
 			Die();
@@ -64,6 +72,7 @@ public class Player : MonoBehaviour
 
 	void Die()
 	{
-		//Debug.Log("You are dead");
+		bloodSplattPool.SetBloodSplatt(gameObject.transform.position, Quaternion.identity);
+		gameObject.SetActive(false);
 	}
 }

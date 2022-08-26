@@ -10,12 +10,13 @@ public class Enemy : MonoBehaviour
 	Vector2 _direction = new Vector3(0, 0, 0);
 	Animator _anim;
 
+	public BloodSplattPool bloodSplattPool;
 	public SpriteRenderer sprite;
 	Shader guiText;
 	Shader defaultShader;
 
 	public float moveSpeed = 1f;
-	public float health = 1f;
+	public float health = 6f;
 
 
 
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour
 		guiText = Shader.Find("GUI/Text Shader");
 		defaultShader = Shader.Find("Sprites/Default");
 		_anim = GetComponent<Animator>();
+		_anim.SetBool("Following", true);
 	}
 
 	void Update()
@@ -39,39 +41,30 @@ public class Enemy : MonoBehaviour
 	}
 
 
-
 	void Move()
 	{
-		if (_player != null)
+		if (_player != null && _player.activeInHierarchy)
 		{
-			if (_player.activeInHierarchy)
-			{
-
-				_anim.SetBool("Following", true);
-				_target = _player.transform.position;
-				_direction = (_target - transform.position).normalized;
-				_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
-			}
-			else
-			{
-				_anim.SetBool("Following", false);
-			}
+			_target = _player.transform.position;
+			_direction = (_target - transform.position).normalized;
+			_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
 		}
 		else
 		{
-			_anim.SetBool("Following", false);
+			_rb.MovePosition(_rb.position);
 		}
 	}
 
 	void CheckDistanceFromPlayer()
 	{
-		if (Vector3.Distance(_player.transform.position, transform.position) > 14)
-			gameObject.SetActive(false);
+		if (_player != null && _player.activeInHierarchy)
+			if (Vector3.Distance(_player.transform.position, transform.position) > 14)
+				gameObject.SetActive(false);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Projectile")
+		if (gameObject.activeInHierarchy && other.gameObject.tag == "Projectile")
 			TakeDamage(other.gameObject.GetComponent<Projectile>().damage);
 	}
 
@@ -83,18 +76,24 @@ public class Enemy : MonoBehaviour
 		else
 			StartCoroutine(FlashWhite());
 
+		if (health <= 0)
+			health = 6f;
 	}
 
 	void Die()
 	{
 		gameObject.SetActive(false);
+		GameManager.Instance.kills++;
+		bloodSplattPool.SetBloodSplatt(gameObject.transform.position, Quaternion.identity);
 	}
 
 	IEnumerator FlashWhite()
 	{
 		sprite.material.shader = guiText;
+		moveSpeed = -moveSpeed;
 		yield return new WaitForSeconds(0.25f);
 		sprite.material.shader = defaultShader;
+		moveSpeed = -moveSpeed;
 	}
 
 }
