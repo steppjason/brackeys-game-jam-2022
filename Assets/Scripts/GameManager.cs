@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	public float threshold = 100.0f;
 	public int kills;
 	public TMP_Text score;
+	public bool gameOver = false;
 
 	public GameObject player;
 
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
 	{
 		GetGameInstance();
 		audioManager = GetComponent<AudioManager>();
+		gameOver = false;
 	}
 
 	void Start()
@@ -51,6 +53,13 @@ public class GameManager : MonoBehaviour
 	void Update()
 	{
 		score.text = String.Format("{0:n0}", kills);
+
+		if (gameOver)
+			if (Input.GetKey(KeyCode.Escape))
+			{
+				SceneManager.LoadScene("TitleScreen");
+				Destroy(gameObject);
+			}
 	}
 
 	void GetManagers()

@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 	float _health;
 	float _damageTimer;
 
-
+	public GameObject gameOver;
 
 	public BloodSplattPool bloodSplattPool;
 	public GameObject cam;
@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
 	void Die()
 	{
 		bloodSplattPool.SetBloodSplatt(gameObject.transform.position, Quaternion.identity);
+		gameOver.SetActive(true);
+		GameManager.Instance.gameOver = true;
 		gameObject.SetActive(false);
 	}
 }
