@@ -16,6 +16,7 @@ public class Friendly : MonoBehaviour
 
 	public BloodSplattPool bloodSplattPool;
 	public GameObject weapon;
+	public GameObject arrow;
 	public float maxHealth = 100f;
 	public float range = 2.5f;
 	public float moveSpeed = 1f;
@@ -33,16 +34,28 @@ public class Friendly : MonoBehaviour
 	{
 		if (_rescued)
 			FollowPlayer();
-		else
-			DisplayHelp();
 
-		if(_player == null || !_player.activeInHierarchy)
+		if (_player == null || !_player.activeInHierarchy)
 			Die();
+
+		CheckDistanceFromPlayer();
 	}
 
-	void DisplayHelp()
+	void CheckDistanceFromPlayer()
 	{
-		// Shout for help
+		if (_player != null && _player.activeInHierarchy)
+			if (Vector3.Distance(_player.transform.position, transform.position) > 25)
+				gameObject.SetActive(false);
+	}
+
+	public void ResetHealth()
+	{
+		_health = maxHealth;
+	}
+
+	public void ResetRescue()
+	{
+		_rescued = false;
 	}
 
 	void FollowPlayer()
@@ -65,12 +78,11 @@ public class Friendly : MonoBehaviour
 				_anim.SetBool("Following", false);
 			}
 		}
-		
+
 	}
 
 	void TakeDamage()
 	{
-		Debug.Log("Taking damage....");
 		_health -= 1;
 		if (_health <= 0)
 			Die();
@@ -97,7 +109,6 @@ public class Friendly : MonoBehaviour
 
 	private void OnCollisionStay2D(Collision2D other)
 	{
-		Debug.Log("Collision");
 		if (_rescued && other.gameObject.tag == "Enemy")
 			TakeDamage();
 	}
