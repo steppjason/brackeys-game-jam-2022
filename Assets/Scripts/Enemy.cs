@@ -11,15 +11,19 @@ public class Enemy : MonoBehaviour
 	Animator _anim;
 	Shader guiText;
 	Shader defaultShader;
+	float moveSpeed = 0f;
+
+	EnemySpawner spawner;
+
 
 	public BloodSplattPool bloodSplattPool;
 	public SpriteRenderer sprite;
-	public float moveSpeed = 1f;
+	public float DEFAULT_MOVESPEED = 0.25f;
 	public float health = 6f;
 
 	public AudioClip[] hitSounds;
 	public AudioClip deathSound;
-	
+
 
 
 
@@ -34,13 +38,15 @@ public class Enemy : MonoBehaviour
 		defaultShader = Shader.Find("Sprites/Default");
 		_anim = GetComponent<Animator>();
 		_anim.SetBool("Following", true);
+		moveSpeed = DEFAULT_MOVESPEED;
+		spawner = gameObject.transform.parent.GetComponent<EnemySpawner>();
 	}
 
 	void Update()
 	{
-		_direction.Normalize();
+		//_direction.Normalize();
 		Move();
-		CheckDistanceFromPlayer();
+		//CheckDistanceFromPlayer();
 
 		if (gameObject == null || !gameObject.activeInHierarchy)
 			StopAllCoroutines();
@@ -53,11 +59,12 @@ public class Enemy : MonoBehaviour
 		{
 			_target = _player.transform.position;
 			_direction = (_target - transform.position).normalized;
-			_rb.MovePosition(_rb.position + _direction.normalized * moveSpeed * Time.deltaTime);
+
+			_rb.position = _rb.position + _direction * moveSpeed * Time.deltaTime;
 		}
 		else
 		{
-			_rb.MovePosition(_rb.position);
+			_rb.position = _rb.position;
 		}
 	}
 
@@ -86,19 +93,26 @@ public class Enemy : MonoBehaviour
 			health = 6f;
 	}
 
+	public void ResetMoveSpeed()
+	{
+		moveSpeed = DEFAULT_MOVESPEED;
+	}
+
 	void Die()
 	{
+
 		gameObject.SetActive(false);
 		GameManager.Instance.kills++;
 		bloodSplattPool.SetBloodSplatt(gameObject.transform.position, Quaternion.identity);
-		GameManager.Instance.audioManager.PlaySFX(0,deathSound);
+		GameManager.Instance.audioManager.PlaySFX(0, deathSound);
+		spawner.enemyCount--;
 	}
 
 	IEnumerator FlashWhite()
 	{
 		sprite.material.shader = guiText;
 		moveSpeed = -moveSpeed;
-		GameManager.Instance.audioManager.PlaySFX(1, hitSounds[Random.Range(0,2)]);
+		GameManager.Instance.audioManager.PlaySFX(1, hitSounds[Random.Range(0, 2)]);
 		yield return new WaitForSeconds(0.25f);
 		sprite.material.shader = defaultShader;
 		moveSpeed = -moveSpeed;

@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
 	public float range = 5f;
 	public float waitTime;
 
+	public int enemyCount = 0;
+
 	int _numberOfEnemiesToSpawn = 1;
 	float _time;
 	Shader defaultShader;
@@ -77,10 +79,14 @@ public class EnemySpawner : MonoBehaviour
 
 	void SpawnEnemies(int numberOfEnemiesToSpawn)
 	{
-		for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+		if (enemyCount < numberOfEnemies)
 		{
-			SetActiveEnemy(GetRandomPoint(range) + player.transform.position, Quaternion.identity);
+			// for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+			// {
+				SetActiveEnemy(GetRandomPoint(range) + player.transform.position, Quaternion.identity);
+			//}
 		}
+
 	}
 
 
@@ -101,8 +107,9 @@ public class EnemySpawner : MonoBehaviour
 		newEnemy.sprite.material.shader = defaultShader;
 		newEnemy.transform.position = position;
 		newEnemy.transform.rotation = rotation;
-		newEnemy.moveSpeed = 3f;
+		newEnemy.ResetMoveSpeed();
 		newEnemy.gameObject.SetActive(true);
+		enemyCount++;
 	}
 
 

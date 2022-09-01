@@ -66,12 +66,12 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 1
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -5575,10 +5575,10 @@ TextureImporter:
       Tiles_189: 2130574009
       Tiles_198: 295931722
       Tiles_3: 914585305
-      Tiles_36: -882549074
-      Tiles_107: 1902707625
-      Tiles_140: -480400553
       Tiles_255: -1524668266
+      Tiles_36: -882549074
+      Tiles_140: -480400553
+      Tiles_107: 1902707625
       Tiles_89: -450390469
       Tiles_50: 1973505978
       Tiles_169: 302580259
